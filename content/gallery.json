@@ -15,7 +15,7 @@
     {
       "id": "g1",
       "category": "Rings",
-      "price": 4999,
+      "price": 149,
       "sku": "ZEV-RNG-001",
       "image": "/static/images/gallery/g1.jpg",
       "swatch": 1,
@@ -24,7 +24,7 @@
     {
       "id": "g2",
       "category": "Bracelet",
-      "price": 7499,
+      "price": 279,
       "sku": "ZEV-BRC-002",
       "image": "/static/images/gallery/g2.jpg",
       "swatch": 2,
@@ -32,9 +32,9 @@
     },
     {
       "id": "g3",
-      "category": "Bracelet",
-      "price": 3299,
-      "sku": "ZEV-BRC-003",
+      "category": "Earrings",
+      "price": 89,
+      "sku": "ZEV-EAR-003",
       "image": "/static/images/gallery/g3.jpg",
       "swatch": 3,
       "size": "square"
@@ -42,7 +42,7 @@
     {
       "id": "g4",
       "category": "Bracelet",
-      "price": 2999,
+      "price": 199,
       "sku": "ZEV-BRC-004",
       "image": "/static/images/gallery/g4.jpg",
       "swatch": 4,
@@ -51,8 +51,8 @@
     {
       "id": "g5",
       "category": "Earrings",
-      "price": 3499,
-      "sku": "ZEV-EAR-006",
+      "price": 99,
+      "sku": "ZEV-EAR-005",
       "image": "/static/images/gallery/g5.jpg",
       "swatch": 5,
       "size": "square"
@@ -60,8 +60,8 @@
     {
       "id": "g6",
       "category": "Necklace",
-      "price": 8999,
-      "sku": "ZEV-NCK-007",
+      "price": 199,
+      "sku": "ZEV-NCK-006",
       "image": "/static/images/gallery/g6.jpg",
       "swatch": 6,
       "size": "square"
@@ -69,8 +69,8 @@
     {
       "id": "g7",
       "category": "Necklace",
-      "price": 3199,
-      "sku": "ZEV-NCK-008",
+      "price": 199,
+      "sku": "ZEV-NCK-007",
       "image": "/static/images/gallery/g7.jpg",
       "swatch": 7,
       "size": "wide"
@@ -78,8 +78,8 @@
     {
       "id": "g8",
       "category": "Earrings",
-      "price": 5499,
-      "sku": "ZEV-EAR-009",
+      "price": 119,
+      "sku": "ZEV-EAR-008",
       "image": "/static/images/gallery/g8.jpg",
       "swatch": 8,
       "size": "tall"
@@ -87,7 +87,7 @@
     {
       "id": "g9",
       "category": "Earrings",
-      "price": 5499,
+      "price": 139,
       "sku": "ZEV-EAR-009",
       "image": "/static/images/gallery/g9.jpg",
       "swatch": 8,
@@ -96,7 +96,7 @@
     {
       "id": "g10",
       "category": "Earrings",
-      "price": 2799,
+      "price": 99,
       "sku": "ZEV-EAR-010",
       "image": "/static/images/gallery/g10.jpg",
       "swatch": 9,
@@ -105,7 +105,7 @@
     {
       "id": "g11",
       "category": "Earrings",
-      "price": 3899,
+      "price": 119,
       "sku": "ZEV-EAR-011",
       "image": "/static/images/gallery/g11.jpg",
       "swatch": 10,
@@ -114,7 +114,7 @@
     {
       "id": "g12",
       "category": "Earrings",
-      "price": 5999,
+      "price": 99,
       "sku": "ZEV-EAR-012",
       "image": "/static/images/gallery/g12.jpg",
       "swatch": 11,
@@ -123,7 +123,7 @@
     {
       "id": "g13",
       "category": "Necklace",
-      "price": 6499,
+      "price": 199,
       "sku": "ZEV-NCK-013",
       "image": "/static/images/gallery/g13.jpg",
       "swatch": 12,
@@ -132,7 +132,7 @@
     {
       "id": "g14",
       "category": "Rings",
-      "price": 2599,
+      "price": 169,
       "sku": "ZEV-RNG-014",
       "image": "/static/images/gallery/g14.jpg",
       "swatch": 1,
@@ -141,7 +141,7 @@
     {
       "id": "g15",
       "category": "Earrings",
-      "price": 2899,
+      "price": 99,
       "sku": "ZEV-EAR-015",
       "image": "/static/images/gallery/g15.jpg",
       "swatch": 2,
@@ -149,47 +149,56 @@
     },
     {
       "id": "g16",
-      "category": "Necklace",
-      "price": 6899,
-      "sku": "ZEV-NCK-016",
+      "category": "Earrings",
+      "price": 99,
+      "sku": "ZEV-EAR-016",
       "image": "/static/images/gallery/g16.jpg",
       "swatch": 3,
       "size": "wide"
     },
     {
       "id": "g17",
-      "category": "Bracelet",
-      "price": 4599,
-      "sku": "ZEV-BRC-017",
+      "category": "Necklace",
+      "price": 199,
+      "sku": "ZEV-NCK-017",
       "image": "/static/images/gallery/g17.jpg",
       "swatch": 4,
       "size": "square"
     },
     {
       "id": "g18",
-      "category": "Rings",
-      "price": 3499,
-      "sku": "ZEV-RNG-018",
+      "category": "Bracelet",
+      "price": 299,
+      "sku": "ZEV-BRC-018",
       "image": "/static/images/gallery/g18.jpg",
       "swatch": 5,
       "size": "square"
     },
     {
       "id": "g19",
-      "category": "Earrings",
-      "price": 3199,
-      "sku": "ZEV-EAR-019",
+      "category": "Necklace",
+      "price": 199,
+      "sku": "ZEV-NCK-019",
       "image": "/static/images/gallery/g19.jpg",
       "swatch": 6,
       "size": "square"
     },
     {
       "id": "g20",
-      "category": "Necklace",
-      "price": 5299,
-      "sku": "ZEV-NCK-020",
+      "category": "Earrings",
+      "price": 99,
+      "sku": "ZEV-EAR-020",
       "image": "/static/images/gallery/g20.jpg",
       "swatch": 7,
+      "size": "wide"
+    },
+    {
+      "id": "g21",
+      "category": "Bracelet",
+      "price": 289,
+      "sku": "ZEV-BRC-021",
+      "image": "/static/images/gallery/g21.jpg",
+      "swatch": 8,
       "size": "wide"
     }
   ],
