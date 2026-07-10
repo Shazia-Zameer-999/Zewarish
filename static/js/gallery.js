@@ -114,9 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxMedia = document.getElementById("lightboxMedia");
   const lightboxImage = document.getElementById("lightboxImage");
   const lightboxSwatch = document.getElementById("lightboxSwatch");
+  const lightboxTitle = document.getElementById("lightboxTitle");
   const lightboxCategory = document.getElementById("lightboxCategory");
   const lightboxPrice = document.getElementById("lightboxPrice");
   const lightboxSku = document.getElementById("lightboxSku");
+  const lightboxDescription = document.getElementById("lightboxDescription");
   
   let visibleItems = [];
   let currentIndex = 0;
@@ -136,17 +138,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const swatchNum = item.dataset.lightboxSwatch;
     lightboxSwatch.className = "swatch lightbox__swatch swatch--" + (((parseInt(swatchNum) || 0) % 12) + 1);
+    // lightboxTitle.textContent = item.dataset.lightboxTitle || "";
     lightboxCategory.textContent = item.dataset.lightboxCategory || "";
 
     if (lightboxPrice) lightboxPrice.textContent = item.dataset.price || "";
     if (lightboxSku) lightboxSku.textContent = item.dataset.sku ? "SKU " + item.dataset.sku : "";
+    if (lightboxDescription) lightboxDescription.textContent = item.dataset.description || "";
 
     if (lightboxImage && lightboxMedia) {
       const imgSrc = item.dataset.image || "";
       lightboxMedia.classList.remove("img-fallback");
       if (imgSrc) {
         lightboxImage.src = imgSrc;
-        lightboxImage.alt = item.dataset.category ? `${item.dataset.category} - Zewarish` : "";
+        lightboxImage.alt = item.dataset.name || "";
       } else {
         lightboxImage.removeAttribute("src");
         lightboxMedia.classList.add("img-fallback");
@@ -354,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const orderModalClose = document.getElementById("orderModalClose");
   const orderModalImage = document.getElementById("orderModalImage");
   const orderModalCategory = document.getElementById("orderModalCategory");
+  const orderModalName = document.getElementById("orderModalName");
   const orderModalPrice = document.getElementById("orderModalPrice");
   const orderModalSku = document.getElementById("orderModalSku");
   const orderModalNote = document.getElementById("orderModalNote");
@@ -364,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentOrderItem = null;
 
   function buildOrderMessage(item) {
-    return `Hi Zewarish,\n\nI would like to order this jewellery.\n\nSKU: ${item.dataset.sku || ""}\nPrice: ₹${item.dataset.price || ""}\n\nPlease let me know the availability.`;
+    return `Hi Zewarish,\n\nI would like to order this jewellery.\n\nProduct: ${item.dataset.name || ""}\nSKU: ${item.dataset.sku || ""}\nPrice: ₹${item.dataset.price || ""}\nProduct Link: https://zewarish.vercel.app/static/images/gallery/${item.dataset.id || ""}.jpg\n\nPlease let me know the availability.`;
   }
 
   function getIgUser() {
@@ -388,9 +393,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (orderModalImage) {
       const imgSrc = item.dataset.image || "";
       orderModalImage.src = imgSrc;
-      orderModalImage.alt = item.dataset.category ? `${item.dataset.category} - Zewarish` : "";
+      orderModalImage.alt = item.dataset.name || "";
     }
     if (orderModalCategory) orderModalCategory.textContent = item.dataset.category || "";
+    if (orderModalName) orderModalName.textContent = item.dataset.name || "piece";
     if (orderModalPrice) orderModalPrice.textContent = item.dataset.price || "";
     if (orderModalSku) orderModalSku.textContent = item.dataset.sku ? "SKU " + item.dataset.sku : "";
 
@@ -416,26 +422,42 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape" && orderModal?.classList.contains("is-open")) closeOrderModal();
   });
 
-  // Just hand off to the Instagram DM thread. We intentionally don't also
-  // copy the text details here: the clipboard can only hold one thing at a
-  // time, and the photo (copied by "Save Photo") is the priority — writing
-  // text here would silently overwrite that photo on the clipboard.
-  orderModalContinueBtn?.addEventListener("click", () => {
+  // Primary path: copy the order details, then hand off to the Instagram DM thread
+  orderModalContinueBtn?.addEventListener("click", async () => {
+    if (!currentOrderItem) return;
+    const message = buildOrderMessage(currentOrderItem);
+    try {
+      await navigator.clipboard.writeText(message);
+      if (orderModalNote) {
+        orderModalNote.textContent = "✓ Copied! Paste it into the Instagram chat that just opened.";
+      }
+      showToast("✓ Product details copied.<br>Paste them into Instagram.");
+    } catch {
+      if (orderModalNote) {
+        orderModalNote.textContent = "Couldn't auto-copy — please note the details above manually.";
+      }
+      showToast("Couldn't copy automatically — please note the product details manually.");
+    }
     window.open(`https://ig.me/m/${getIgUser()}`, "_blank", "noopener");
   });
 
-  // ---- Caption-on-photo pipeline -------------------------------------
-  // Instagram's DM box can only ever act on ONE clipboard format per paste
-  // (it either attaches a photo or inserts text — never both from a single
-  // paste, regardless of what formats we put on the clipboard). The only
-  // way to genuinely get "one paste, both photo AND details" is to draw
-  // the details onto the photo's pixels so they travel as one object.
-
-  function blobToImage(blob) {
+  // Convert an image blob to PNG via canvas — PNG is the one raster format
+  // every clipboard-supporting browser accepts through ClipboardItem; JPEG
+  // support is inconsistent, so we normalize instead of gambling on it.
+  function blobToPngBlob(blob) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       const url = URL.createObjectURL(blob);
-      img.onload = () => resolve({ img, url });
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+        canvas.toBlob((pngBlob) => {
+          URL.revokeObjectURL(url);
+          pngBlob ? resolve(pngBlob) : reject(new Error("canvas toBlob failed"));
+        }, "image/png");
+      };
       img.onerror = () => {
         URL.revokeObjectURL(url);
         reject(new Error("image decode failed"));
@@ -444,93 +466,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  let brandFontsPromise = null;
-  function ensureBrandFontsLoaded() {
-    if (!("fonts" in document)) return Promise.resolve();
-    if (!brandFontsPromise) {
-      brandFontsPromise = Promise.all([
-        document.fonts.load('700 40px "Manrope"'),
-        document.fonts.load('600 40px "Manrope"'),
-        document.fonts.load('500 40px "Manrope"'),
-      ]).catch(() => {});
-    }
-    return brandFontsPromise;
-  }
-
-  // Manual letter-spacing fallback for browsers without ctx.letterSpacing
-  function fillTextSpaced(ctx, text, x, y, spacingPx) {
-    if ("letterSpacing" in ctx) {
-      ctx.letterSpacing = `${spacingPx}px`;
-      ctx.fillText(text, x, y);
-      ctx.letterSpacing = "0px";
-      return;
-    }
-    let cx = x;
-    for (const ch of text) {
-      ctx.fillText(ch, cx, y);
-      cx += ctx.measureText(ch).width + spacingPx;
-    }
-  }
-
-  // Draws the photo onto a canvas with the price, SKU, and brand handle
-  // overlaid in a bottom scrim — on-brand with the site's ink/gold/ivory
-  // palette and the Manrope type used sitewide for UI text.
-  async function buildOrderCaptionedBlob(item, sourceBlob) {
-    const { img, url } = await blobToImage(sourceBlob);
-    const MAX_DIM = 1600;
-    const scale = Math.min(1, MAX_DIM / Math.max(img.naturalWidth, img.naturalHeight));
-    const w = Math.round(img.naturalWidth * scale) || img.width;
-    const h = Math.round(img.naturalHeight * scale) || img.height;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, w, h);
-    URL.revokeObjectURL(url);
-
-    await ensureBrandFontsLoaded();
-
-    // Gradient scrim so text stays legible over any photo — sized for two
-    // lines now that the product name is no longer printed on the photo
-    const scrimTop = h * 0.72;
-    const gradient = ctx.createLinearGradient(0, scrimTop, 0, h);
-    gradient.addColorStop(0, "rgba(23,17,12,0)");
-    gradient.addColorStop(1, "rgba(23,17,12,0.92)");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, scrimTop, w, h - scrimTop);
-
-    const pad = w * 0.06;
-    ctx.textBaseline = "alphabetic";
-
-    // Thin gold accent line above the text block
-    ctx.fillStyle = "#C99A43";
-    ctx.fillRect(pad, h - h * 0.16, w * 0.1, Math.max(2, h * 0.0035));
-
-    // Price + SKU line
-    const priceText = item.dataset.price ? `₹${item.dataset.price}` : "";
-    ctx.font = `700 ${Math.round(h * 0.032)}px "Manrope", sans-serif`;
-    ctx.fillStyle = "#F0D38A";
-    ctx.fillText(priceText, pad, h - h * 0.1);
-    if (item.dataset.sku) {
-      const priceWidth = ctx.measureText(priceText).width;
-      ctx.font = `500 ${Math.round(h * 0.024)}px "Manrope", sans-serif`;
-      ctx.fillStyle = "rgba(255,248,238,0.7)";
-      ctx.fillText(`   SKU ${item.dataset.sku}`, pad + priceWidth, h - h * 0.13);
-    }
-
-    // Brand handle in place of the raw link — a URL isn't clickable inside
-    // an image anyway, so the handle is the more useful, on-brand cue
-    ctx.font = `600 ${Math.round(h * 0.022)}px "Manrope", sans-serif`;
-    ctx.fillStyle = "rgba(255,248,238,0.6)";
-    fillTextSpaced(ctx, "ZEWARISH.CO", pad, h - h * 0.045, 1.5);
-
-    return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png"));
-  }
-
-  async function copyImageToClipboard(pngBlob) {
+  async function copyImageToClipboard(blob) {
     if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") return false;
     try {
+      const pngBlob = await blobToPngBlob(blob);
       await navigator.clipboard.write([new ClipboardItem({ "image/png": pngBlob })]);
       return true;
     } catch {
@@ -538,9 +477,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Save the captioned photo locally AND copy it to the clipboard, so one
-  // tap — and one paste — carries the piece's name, price, SKU, and handle
-  // along with the image itself.
+  // Save the product photo locally AND copy it to the clipboard, so it's
+  // one tap to attach in the DM either by pasting or by picking it from
+  // Downloads — whichever the person's browser/OS makes easier.
   orderModalDownloadBtn?.addEventListener("click", async () => {
     if (!currentOrderItem) return;
     const imgSrc = currentOrderItem.dataset.image;
@@ -550,10 +489,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       const res = await fetch(imgSrc);
-      const rawBlob = await res.blob();
-      const captionedBlob = await buildOrderCaptionedBlob(currentOrderItem, rawBlob);
-      const fileName = `zewarish-${currentOrderItem.dataset.sku || currentOrderItem.dataset.id || "piece"}.png`;
-      const blobUrl = URL.createObjectURL(captionedBlob);
+      const blob = await res.blob();
+      const ext = (imgSrc.split(".").pop() || "jpg").split("?")[0];
+      const fileName = `zewarish-${currentOrderItem.dataset.sku || currentOrderItem.dataset.slug || "piece"}.${ext}`;
+      const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
       a.download = fileName;
@@ -562,14 +501,14 @@ document.addEventListener("DOMContentLoaded", () => {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
 
-      const copied = await copyImageToClipboard(captionedBlob);
+      const copied = await copyImageToClipboard(blob);
       showToast(
         copied
-          ? "📷 Photo saved &amp; copied — name &amp; price are on the photo, ready to paste."
+          ? "📷 Photo saved &amp; copied — paste it straight into Instagram."
           : "📷 Photo saved — attach it in Instagram after pasting."
       );
     } catch {
-      // Fallback: raw image, no caption, still same-origin
+      // Fallback: let the browser handle it directly (still same-origin)
       const a = document.createElement("a");
       a.href = imgSrc;
       a.download = "";
@@ -596,7 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       await navigator.share({
         files,
-        title: currentOrderItem.dataset.category ? `Zewarish ${currentOrderItem.dataset.category}` : "Zewarish piece",
+        title: currentOrderItem.dataset.name || "Zewarish piece",
         text: message,
       });
     } catch {
@@ -642,15 +581,15 @@ function renderWishlistDrawer() {
       .map((item) => {
         // Fetch the image source from the dataset
         const imgSrc = item.dataset.image || "";
-        const altText = item.dataset.category ? `${item.dataset.category} - Zewarish` : "";
-
+        
         return `
           <div class="wishlist-card" data-id="${item.dataset.id}">
             <div class="wishlist-card__swatch">
-              <img src="${imgSrc}" alt="${altText}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+              <img src="${imgSrc}" alt="${item.dataset.name || ""}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
             </div>
             <div class="wishlist-card__info">
               <span class="wishlist-card__cat">${item.dataset.category || ""}</span>
+              <p class="wishlist-card__name">${item.dataset.name || ""}</p>
               <span class="wishlist-card__price">${item.dataset.price || ""}</span>
               <div class="wishlist-card__actions">
                 <button class="wishlist-card__order" data-drawer-order>Order</button>
@@ -709,25 +648,20 @@ function renderWishlistDrawer() {
     const after = frame.querySelector(".ba-slider__after");
     const handle = frame.querySelector(".ba-slider__handle");
     let dragging = false;
-    // Cached on drag-start instead of read on every mousemove — a
-    // getBoundingClientRect() on a high-frequency event forces a layout
-    // recalc each call, which is what causes drag jank (same fix pattern
-    // already used for the magnetic buttons/tilt cards in cursor.js).
-    let rect = null;
 
     function setPosition(clientX) {
-      if (!rect) rect = frame.getBoundingClientRect();
+      const rect = frame.getBoundingClientRect();
       let pct = ((clientX - rect.left) / rect.width) * 100;
       pct = Math.max(0, Math.min(100, pct));
       after.style.clipPath = `inset(0 0 0 ${pct}%)`;
       handle.style.left = pct + "%";
     }
-    frame.addEventListener("mousedown", (e) => { dragging = true; rect = frame.getBoundingClientRect(); setPosition(e.clientX); });
+    frame.addEventListener("mousedown", (e) => { dragging = true; setPosition(e.clientX); });
     window.addEventListener("mousemove", (e) => { if (dragging) setPosition(e.clientX); });
-    window.addEventListener("mouseup", () => { dragging = false; rect = null; });
-    frame.addEventListener("touchstart", (e) => { dragging = true; rect = frame.getBoundingClientRect(); setPosition(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener("mouseup", () => (dragging = false));
+    frame.addEventListener("touchstart", (e) => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
     frame.addEventListener("touchmove", (e) => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
-    frame.addEventListener("touchend", () => { dragging = false; rect = null; });
+    frame.addEventListener("touchend", () => (dragging = false));
   });
 
   /* ---------------- Testimonials Swiper ---------------- */
@@ -772,15 +706,7 @@ function renderWishlistDrawer() {
         e.preventDefault();
         testimonialSwiper.slidePrev();
       });
-      // Debounced: a raw resize listener fires continuously while a window
-      // edge is being dragged, and Swiper.update() re-measures the DOM each
-      // time — same visual result, far less work if we wait for resizing
-      // to settle instead of recalculating on every intermediate pixel.
-      let resizeTimer = null;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => testimonialSwiper.update(), 150);
-      });
+      window.addEventListener("resize", () => testimonialSwiper.update());
     }
   }
 });

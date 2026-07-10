@@ -22,16 +22,20 @@
         data-category="{{ item.category }}"
         data-reveal
         data-id="{{ item.id }}"
+        data-name="{{ item.name }}"
         data-price="{{ item.price }}"
         data-sku="{{ item.sku }}"
+        data-slug="{{ item.slug }}"
+        data-description="{{ item.description|default('') }}"
         data-image="{{ item.image|default('') }}"
+        data-lightbox-title="{{ item.name }}"
         data-lightbox-category="{{ item.category }}"
         data-lightbox-swatch="{{ item.swatch|default(0) }}"
       >
         <div class="gallery__item-media">
           <img
             src="{{ item.image|default('') }}"
-            alt="{{ item.category }} - Zewarish"
+            alt="{{ item.name }}"
             class="gallery__item-img"
             loading="lazy"
             decoding="async"
@@ -57,6 +61,7 @@
 
         <figcaption>
           <span class="gallery__item-cat">{{ item.category }}</span>
+          <!-- <span class="gallery__item-title">{{ item.name }}</span> -->
           <span class="gallery__item-sku">SKU {{ item.sku }}</span>
           <span class="gallery__item-zoom"
             ><i class="fa-solid fa-expand"></i
@@ -129,7 +134,9 @@
 
     <div class="lightbox__info">
       <span id="lightboxCategory"></span>
+      <h3 id="lightboxTitle"></h3>
       <span class="lightbox__sku" id="lightboxSku"></span>
+      <!-- <p class="lightbox__description" id="lightboxDescription"></p> -->
     </div>
 
     <div class="lightbox__actions">
@@ -164,7 +171,7 @@
 
 <div class="order-modal" id="orderModal">
   <div class="order-modal__overlay" id="orderModalOverlay"></div>
-  <div class="order-modal__panel" role="dialog" aria-modal="true" aria-labelledby="orderModalCategory">
+  <div class="order-modal__panel" role="dialog" aria-modal="true" aria-labelledby="orderModalName">
     <button class="order-modal__close" id="orderModalClose" aria-label="Close">
       <i class="fa-solid fa-xmark"></i>
     </button>
@@ -175,6 +182,7 @@
       </div>
       <div class="order-modal__info">
         <span class="order-modal__cat" id="orderModalCategory"></span>
+        <h3 id="orderModalName"></h3>
         <span class="order-modal__price" id="orderModalPrice"></span>
         <span class="order-modal__sku" id="orderModalSku"></span>
       </div>
@@ -182,9 +190,10 @@
 
     <p class="order-modal__heading">Here's how ordering on Instagram works</p>
     <ol class="order-modal__steps">
-      <li><strong>Tap Save Photo</strong> — the name, price &amp; SKU get printed onto the image, which is saved and copied.</li>
-      <li><strong>Paste it</strong> into our chat (long‑press → Paste, or Ctrl/Cmd+V) — the details travel with it.</li>
-      <li><strong>Tap Open Instagram</strong> if the chat isn't open yet.</li>
+      <li><strong>We copy</strong> this product's name, SKU, price &amp; link for you.</li>
+      <li><strong>Instagram opens</strong> in a new tab, right in our DM chat.</li>
+      <li><strong>Tap the message box and paste</strong> (long‑press → Paste, or Ctrl/Cmd+V) to send the details.</li>
+      <li>Want the photo in the chat too? Tap <strong>Save Photo</strong> below first, then attach it from your gallery before you send.</li>
     </ol>
 
     <div class="order-modal__actions">
@@ -195,10 +204,10 @@
         <i class="fa-solid fa-share-nodes"></i> Share Photo + Details
       </button>
       <button class="order-modal__btn order-modal__btn--primary" id="orderModalContinueBtn" type="button">
-        <i class="fa-brands fa-instagram"></i> Open Instagram
+        <i class="fa-brands fa-instagram"></i> Copy Details &amp; Open Instagram
       </button>
     </div>
 
-    <p class="order-modal__note" id="orderModalNote">One photo, one paste — the product name and price are printed right onto it.</p>
+    <p class="order-modal__note" id="orderModalNote">Instagram doesn't let outside websites pre-fill a chat, so this is the fastest legit way to get your order across.</p>
   </div>
 </div>
