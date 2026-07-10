@@ -1,8 +1,3 @@
-/* ==========================================================================
-   ZEWARISH — Fine Jewellery Brand
-   main.css — Part 1: Reset, base, typography, buttons, cursor, swatch art
-   ========================================================================== */
-
 *,
 *::before,
 *::after {
@@ -133,13 +128,7 @@ section {
   }
 }
 
-/* Cursor (desktop only, motion-safe) — liquid gold cursor.
-   .cursor-core is the exact pointer position (zero added lag).
-   .cursor-blob is a spring-smoothed trailing droplet.
-   Both sit inside an SVG "goo" filter so they visually fuse into one
-   liquid shape when close and separate cleanly when apart. Every frame
-   only ever touches `transform`/`filter`, never layout-affecting
-   properties, so the browser can composite it without a reflow. */
+
 html.has-custom-cursor,
 html.has-custom-cursor * {
   cursor: none !important;
@@ -163,10 +152,7 @@ html.has-custom-cursor * {
   width: 18px;
   height: 18px;
   margin: -9px 0 0 -9px;
-  /* Teardrop, not a plain circle: one corner stays sharp while the
-     others stay round, so it reads as a small drop of water rather
-     than a ball. The wobble keyframes below nudge this shape gently
-     so it feels liquid without ever bulking up in size. */
+
   border-radius: 62% 62% 62% 8% / 62% 62% 55% 42%;
   background: radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95), var(--gold-light) 35%, var(--gold) 68%, var(--bordeaux) 100%);
   box-shadow: 0 3px 8px rgba(42, 15, 22, 0.25);
@@ -315,9 +301,7 @@ html.has-custom-cursor * {
   justify-content: center;
 }
 
-/* Abstract "swatch" placeholder art — replaces stock photography with
-   jewellery-inspired gradient textures in the Zewarish palette. Swap for real photos
-   later by editing .swatch background rules or gallery.json image URLs. */
+
 .swatch {
   position: relative;
   border-radius: var(--radius-md);
@@ -394,7 +378,6 @@ html.has-custom-cursor * {
   z-index: 2;
 }
 
-/* Reveal-on-scroll base state (JS/GSAP toggles .is-visible) */
 [data-reveal],
 [data-reveal-mask] {
   opacity: 0;
@@ -409,7 +392,6 @@ html.has-custom-cursor * {
     transform 0.9s var(--ease);
 }
 
-/* Scroll progress thread */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -680,9 +662,6 @@ html.has-custom-cursor * {
   align-items: center;
   gap: 1.6rem;
   width: 100%;
-  /* auto top/bottom margin centers the links when they fit, and lets
-     them scroll from the top instead of clipping when they don't
-     (e.g. 8 links + CTA on a short/landscape phone). */
   margin: auto 0;
 }
 .mobile-menu nav a {
@@ -706,8 +685,7 @@ html.has-custom-cursor * {
   }
 }
 
-/* Small phones: tighten the header and full-screen menu so the logo,
-   toggle button and every nav link stay legible without overlapping. */
+
 @media (max-width: 480px) {
   .site-nav {
     padding: 1rem 0;
@@ -740,8 +718,7 @@ html.has-custom-cursor * {
   }
 }
 
-/* Short or landscape phones: the menu already scrolls, but shrinking
-   the type and gaps first means it rarely needs to. */
+
 @media (max-height: 480px) and (max-width: 900px) {
   .mobile-menu {
     padding: 5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
@@ -755,7 +732,7 @@ html.has-custom-cursor * {
 }
 
 /* ==========================================================================
-   Hero
+  Hero
    ========================================================================== */
 .hero {
   min-height: 100vh;
@@ -924,7 +901,7 @@ html.has-custom-cursor * {
 }
 
 /* ==========================================================================
-   Tablet
+  Tablet
    ========================================================================== */
 
 @media (max-width:992px){
@@ -966,7 +943,7 @@ bottom:1.5rem;
 
 
 /* ==========================================================================
-   Mobile
+  Mobile
    ========================================================================== */
 
 @media (max-width:768px){
@@ -1086,7 +1063,7 @@ height:34px;
 
 
 /* ==========================================================================
-   Small Phones
+  Small Phones
    ========================================================================== */
 
 @media (max-width:480px){
@@ -1147,7 +1124,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   About
+  About
    ========================================================================== */
 .about__grid {
   display: grid;
@@ -1261,7 +1238,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Stats
+  Stats
    ========================================================================== */
 .stats {
   background: var(--ink);
@@ -1308,96 +1285,10 @@ height:28px;
   padding: 1rem 0;}
 }
 
-/* ==========================================================================
-   Services
-   ========================================================================== */
-.services__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-.service-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 2.2rem;
-  border: 1px solid rgba(42, 15, 22, 0.06);
-  transition:
-    transform 0.4s var(--ease),
-    box-shadow 0.4s var(--ease);
-}
-.service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lift);
-}
-.service-card__icon {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--blush);
-  color: var(--bordeaux);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  margin-bottom: 1.3rem;
-}
-.service-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.6rem;
-}
-.service-card p {
-  font-size: 0.92rem;
-  color: #6b5b56;
-  line-height: 1.55;
-  margin-bottom: 1.2rem;
-}
-.service-card__list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-.service-card__list li {
-  font-size: 0.85rem;
-  color: var(--ink);
-  padding-left: 1.1rem;
-  position: relative;
-}
-.service-card__list li::before {
-  content: "\2014";
-  position: absolute;
-  left: 0;
-  color: var(--gold);
-}
-.service-card__link {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--bordeaux);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.service-card__link i {
-  transition: transform 0.3s var(--ease);
-  font-size: 0.72rem;
-}
-.service-card:hover .service-card__link i {
-  transform: translateX(5px);
-}
 
-@media (max-width: 900px) {
-  .services__grid {
-    grid-template-columns: 1fr;
-  }
-}
-@media (min-width: 901px) and (max-width: 1200px) {
-  .services__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 
 /* ==========================================================================
-   Why Choose
+  Why Choose
    ========================================================================== */
 .why-choose {
   background: var(--blush);
@@ -1445,132 +1336,9 @@ height:28px;
   }
 }
 
-/* ==========================================================================
-   Bridal
-   ========================================================================== */
-.bridal {
-  background: var(--ink);
-  position: relative;
-  overflow: hidden;
-}
-.bridal .section-title,
-.bridal .eyebrow {
-  color: var(--ivory);
-}
-.bridal .eyebrow {
-  color: var(--gold-light);
-}
-.bridal .section-subtitle {
-  color: rgba(251, 245, 236, 0.6);
-}
-.bridal__bg-thread {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(var(--gold), transparent);
-  opacity: 0.3;
-}
-.bridal__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-.bridal-card {
-  background: rgba(251, 245, 236, 0.04);
-  border: 1px solid rgba(251, 245, 236, 0.14);
-  border-radius: var(--radius-lg);
-  padding: 2.4rem 2rem;
-  position: relative;
-  color: var(--ivory);
-  display: flex;
-  flex-direction: column;
-  transition:
-    transform 0.4s var(--ease),
-    border-color 0.4s var(--ease);
-}
-.bridal-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--gold);
-}
-.bridal-card--featured {
-  background: linear-gradient(
-    160deg,
-    rgba(201, 154, 67, 0.16),
-    rgba(127, 23, 52, 0.2)
-  );
-  border-color: var(--gold);
-}
-.bridal-card__tag {
-  position: absolute;
-  top: -13px;
-  left: 2rem;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-pill);
-}
-.bridal-card h3 {
-  color: var(--ivory);
-  font-size: 1.5rem;
-  margin-bottom: 0.6rem;
-}
-.bridal-card__desc {
-  font-size: 0.92rem;
-  color: rgba(251, 245, 236, 0.65);
-  margin-bottom: 1rem;
-  line-height: 1.55;
-}
-.bridal-card__duration {
-  font-size: 0.78rem;
-  color: var(--gold-light);
-  margin-bottom: 1.4rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-.bridal-card__includes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-bottom: 1.8rem;
-  flex-grow: 1;
-}
-.bridal-card__includes li {
-  font-size: 0.85rem;
-  display: flex;
-  gap: 0.6rem;
-  color: rgba(251, 245, 236, 0.85);
-}
-.bridal-card__includes i {
-  color: var(--gold);
-  margin-top: 0.2rem;
-  font-size: 0.72rem;
-}
-.bridal-card .btn-thread--ghost {
-  border-color: rgba(251, 245, 236, 0.3);
-  color: var(--ivory);
-}
-.bridal-card .btn-thread--ghost::before {
-  background: var(--gold);
-}
-.bridal-card .btn-thread--ghost:hover {
-  color: var(--ink);
-}
-
-@media (max-width: 900px) {
-  .bridal__grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ==========================================================================
-   Gallery + Lightbox
+  Gallery + Lightbox
    ========================================================================== */
 .gallery__filters {
   display: flex;
@@ -1662,7 +1430,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Product Image Handling (card + lightbox)
+  Product Image Handling (card + lightbox)
    ========================================================================== */
 .gallery__item-media {
   position: absolute;
@@ -1713,7 +1481,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Product Card Enhancements
+  Product Card Enhancements
    ========================================================================== */
 .gallery__item-price {
   position: absolute;
@@ -1779,7 +1547,6 @@ height:28px;
   text-transform: uppercase;
 }
 
-/* Always show price/save on touch devices OR narrow screens so users can easily save without hovering */
 @media (max-width: 900px), (hover: none) {
   .gallery__item-price,
   .gallery__item-save {
@@ -1789,7 +1556,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Lightbox Enhancements
+  Lightbox Enhancements
    ========================================================================== */
 .lightbox__price {
   margin-top: 1rem;
@@ -1873,7 +1640,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Toast Notification
+  Toast Notification
    ========================================================================== */
 .toast {
   position: fixed;
@@ -1999,7 +1766,7 @@ height:28px;
 }
 
 /* ==========================================================================
-   Wishlist Toggle + Drawer
+  Wishlist Toggle + Drawer
    ========================================================================== */
 .wishlist-toggle {
   position: fixed;
@@ -2176,7 +1943,7 @@ height:28px;
   text-decoration: underline;
 }
 /* ==========================================================================
-   Load More Button
+  Load More Button
    ========================================================================== */
 .btn-load-more {
   display: inline-flex;
@@ -2213,336 +1980,7 @@ height:28px;
   }
 }
 
-/* ==========================================================================
-   Before / After slider
-   ========================================================================== */
-.before-after__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
-.ba-slider h4 {
-  margin-top: 1rem;
-  font-size: 1rem;
-  text-align: center;
-}
-.ba-slider__frame {
-  position: relative;
-  aspect-ratio: 3/4;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-soft);
-  cursor: ew-resize;
-  user-select: none;
-}
-.ba-slider__before,
-.ba-slider__after {
-  position: absolute;
-  inset: 0;
-  border-radius: 0;
-  aspect-ratio: auto;
-}
-.ba-slider__after {
-  clip-path: inset(0 0 0 50%);
-}
-.ba-slider__tag {
-  position: absolute;
-  top: 1rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--radius-pill);
-  z-index: 2;
-}
-.ba-slider__before .ba-slider__tag {
-  left: 1rem;
-}
-.ba-slider__after .ba-slider__tag {
-  right: 1rem;
-}
-.ba-slider__handle {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 3px;
-  height: 100%;
-  background: #fff;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-}
-.ba-slider__handle::before {
-  content: "";
-  position: absolute;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--shadow-soft);
-}
-.ba-slider__handle i {
-  position: relative;
-  z-index: 2;
-  color: var(--bordeaux);
-  font-size: 0.85rem;
-}
-@media (max-width: 900px) {
-  .before-after__grid {
-    grid-template-columns: 1fr;
-  }
-}
 
-/* ==========================================================================
-   Pricing
-   ========================================================================== */
-.pricing__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-.pricing-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 2.4rem 2rem;
-  border: 1px solid rgba(42, 15, 22, 0.08);
-  position: relative;
-  transition:
-    transform 0.4s var(--ease),
-    box-shadow 0.4s var(--ease);
-}
-.pricing-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lift);
-}
-.pricing-card--featured {
-  background: linear-gradient(165deg, var(--ink), var(--bordeaux-dark));
-  color: var(--ivory);
-  border-color: transparent;
-}
-.pricing-card--featured h3,
-.pricing-card--featured .pricing-card__price {
-  color: var(--ivory);
-}
-.pricing-card--featured .pricing-card__desc {
-  color: rgba(251, 245, 236, 0.65);
-}
-.pricing-card--featured .pricing-card__features li {
-  color: rgba(251, 245, 236, 0.85);
-}
-.pricing-card__tag {
-  position: absolute;
-  top: -13px;
-  left: 2rem;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 0.68rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-pill);
-}
-.pricing-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-.pricing-card__desc {
-  font-size: 0.88rem;
-  color: #6b5b56;
-  margin-bottom: 1.4rem;
-}
-.pricing-card__price {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
-  color: var(--ink);
-  margin-bottom: 1.6rem;
-}
-.pricing-card__period {
-  display: block;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gold);
-  font-family: var(--font-body);
-}
-.pricing-card__features {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  margin-bottom: 2rem;
-}
-.pricing-card__features li {
-  font-size: 0.87rem;
-  display: flex;
-  gap: 0.6rem;
-  color: #4a3d39;
-}
-.pricing-card__features i {
-  color: var(--gold);
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-}
-.pricing__note {
-  text-align: center;
-  margin-top: 2.5rem;
-  font-size: 0.85rem;
-  color: #6b5b56;
-}
-@media (max-width: 900px) {
-  .pricing__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ==========================================================================
-   Offers
-   ========================================================================== */
-.offers__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-.offer-card {
-  background: linear-gradient(160deg, #fff, #fbf1ea);
-  border: 1px dashed rgba(184, 135, 74, 0.5);
-  border-radius: var(--radius-md);
-  padding: 1.8rem;
-  position: relative;
-}
-.offer-card__tag {
-  display: inline-block;
-  background: var(--blush);
-  color: var(--bordeaux);
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  padding: 0.3rem 0.8rem;
-  border-radius: var(--radius-pill);
-  margin-bottom: 1rem;
-}
-.offer-card h4 {
-  font-size: 1.1rem;
-  margin-bottom: 0.6rem;
-}
-.offer-card p {
-  font-size: 0.88rem;
-  color: #6b5b56;
-  line-height: 1.5;
-  margin-bottom: 1.2rem;
-}
-.offer-card__expiry {
-  font-size: 0.75rem;
-  color: var(--gold);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-@media (max-width: 900px) {
-  .offers__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ==========================================================================
-   Testimonials
-   ========================================================================== */
-/* .testimonials {
-  background: linear-gradient(180deg, #f6e9e2, var(--ivory));
-}
-.testimonials__swiper {
-  padding: 0 1.75rem 1rem;
-}
-.testimonials__swiper .swiper-wrapper {
-  padding-bottom: 1rem;
-}
-.testimonial-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 2.2rem;
-  box-shadow: var(--shadow-soft);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.testimonial-card__stars {
-  color: var(--gold);
-  font-size: 0.85rem;
-  margin-bottom: 1rem;
-  letter-spacing: 2px;
-}
-.testimonial-card p {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  line-height: 1.5;
-  color: var(--ink);
-  flex-grow: 1;
-}
-.testimonial-card__author {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  margin-top: 1.5rem;
-}
-.testimonial-card__avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--bordeaux);
-  color: var(--ivory);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-.testimonial-card__author strong {
-  display: block;
-  font-size: 0.92rem;
-}
-.testimonial-card__author small {
-  font-size: 0.78rem;
-  color: #6b5b56;
-}
-.testimonials__nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-.testimonials__prev,
-.testimonials__next {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(42, 15, 22, 0.15);
-  background: #fff;
-}
-.testimonials__prev:hover,
-.testimonials__next:hover {
-  background: var(--bordeaux);
-  color: #fff;
-  border-color: var(--bordeaux);
-}
-.swiper-pagination-bullet {
-  background: var(--bordeaux);
-  opacity: 0.25;
-}
-.swiper-pagination-bullet-active {
-  opacity: 1;
-  background: var(--gold);
-} */
-/* ===========================
-   Testimonials
-=========================== */
 
 .testimonials{
   position: relative;
@@ -2570,7 +2008,7 @@ height:28px;
 }
 
 /* ===========================
-   Card
+  Card
 =========================== */
 
 .testimonial-card{
@@ -2605,7 +2043,7 @@ height:28px;
 }
 
 /* ===========================
-   Stars
+  Stars
 =========================== */
 
 .testimonial-card__stars{
@@ -2617,7 +2055,7 @@ height:28px;
 }
 
 /* ===========================
-   Quote
+  Quote
 =========================== */
 
 .testimonial-card p{
@@ -2632,7 +2070,7 @@ height:28px;
 }
 
 /* ===========================
-   Author
+  Author
 =========================== */
 
 .testimonial-card__author{
@@ -2679,7 +2117,7 @@ height:28px;
 }
 
 /* ===========================
-   Navigation
+  Navigation
 =========================== */
 
 .testimonials__nav{
@@ -2719,7 +2157,7 @@ height:28px;
 }
 
 /* ===========================
-   Pagination
+  Pagination
 =========================== */
 
 .swiper-pagination{
@@ -2751,7 +2189,7 @@ height:28px;
   background:var(--gold);
 }
 /* ===========================
-   Tablet
+  Tablet
 =========================== */
 
 @media (max-width:992px){
@@ -2773,7 +2211,7 @@ line-height:1.75;
 }
 
 /* ===========================
-   Mobile
+  Mobile
 =========================== */
 
 @media (max-width:640px){
@@ -2836,7 +2274,7 @@ line-height:1.75;
 
 }
 /* ==========================================================================
-   Founder
+  Founder
    ========================================================================== */
 
 .team{
@@ -2938,7 +2376,7 @@ line-height:1.75;
 }
 
 /* ===========================
-   Tablet
+  Tablet
 =========================== */
 
 @media (max-width:992px){
@@ -2976,7 +2414,7 @@ max-width:none;
 }
 
 /* ===========================
-   Mobile
+  Mobile
 =========================== */
 
 @media (max-width:640px){
@@ -3051,52 +2489,9 @@ line-height:1.75;
 .instagram__item:hover .instagram__image{
     transform:scale(1.08);
 }
-/* ==========================================================================
-   Blog
-   ========================================================================== */
-.blog__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-.blog-card__cover {
-  aspect-ratio: 16/10;
-  border-radius: var(--radius-md);
-  margin-bottom: 1.2rem;
-}
-.blog-card__cat {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--bordeaux);
-  font-weight: 700;
-}
-.blog-card h4 {
-  font-size: 1.15rem;
-  margin: 0.6rem 0;
-}
-.blog-card p {
-  font-size: 0.88rem;
-  color: #6b5b56;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-.blog-card__link {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--ink);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-@media (max-width: 900px) {
-  .blog__grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ==========================================================================
-   Instagram strip
+  Instagram strip
    ========================================================================== */
 .instagram__track-wrap {
   overflow: hidden;
@@ -3142,41 +2537,9 @@ line-height:1.75;
   opacity: 1;
 }
 
-/* ==========================================================================
-   Google reviews
-   ========================================================================== */
-.reviews__inner {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-}
-.reviews__badge {
-  font-size: 2.2rem;
-  color: var(--bordeaux);
-}
-.reviews__number {
-  font-family: var(--font-display);
-  font-size: 3.4rem;
-  color: var(--ink);
-}
-.reviews__stars {
-  color: var(--gold);
-  letter-spacing: 3px;
-}
-.reviews__count {
-  font-size: 0.85rem;
-  color: #6b5b56;
-}
-.reviews__summary {
-  max-width: 480px;
-  color: #6b5b56;
-  margin: 0.5rem 0 1.2rem;
-}
 
 /* ==========================================================================
-   FAQ
+  FAQ
    ========================================================================== */
 .faq__grid {
   display: grid;
@@ -3239,7 +2602,7 @@ line-height:1.75;
 }
 
 /* ==========================================================================
-   Booking form
+  Booking form
    ========================================================================== */
 .booking {
   background: linear-gradient(180deg, var(--ivory), #f6e9e2);
@@ -3373,150 +2736,10 @@ line-height:1.75;
   }
 }
 
-/* ==========================================================================
-   Contact + Map
-   ========================================================================== */
-.contact__grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 3.5rem;
-  align-items: stretch;
-}
-.contact__card {
-  display: flex;
-  gap: 1.1rem;
-  align-items: flex-start;
-  padding: 1.3rem 0;
-  border-bottom: 1px solid rgba(42, 15, 22, 0.08);
-}
-.contact__card i {
-  color: var(--gold);
-  font-size: 1.1rem;
-  margin-top: 0.2rem;
-  width: 20px;
-}
-.contact__card strong {
-  display: block;
-  margin-bottom: 0.3rem;
-}
-.contact__card p {
-  font-size: 0.9rem;
-  color: #6b5b56;
-  line-height: 1.5;
-}
-.contact__card a {
-  color: var(--bordeaux);
-  font-weight: 600;
-}
-.contact__info .btn-thread {
-  margin-top: 1.6rem;
-}
-.contact__map {
-  position: relative;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-lift);
-  min-height: 340px;
-}
-.contact__map iframe {
-  width: 100%;
-  height: 100%;
-  min-height: 340px;
-  border: 0;
-  filter: saturate(0.75) contrast(1.05);
-}
-.contact__map-pin {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  color: var(--bordeaux);
-  font-size: 1.8rem;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
-  pointer-events: none;
-}
-@media (max-width: 900px) {
-  .contact__grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* ==========================================================================
-   Newsletter
-   ========================================================================== */
-.newsletter {
-  background: var(--ink);
-}
-.newsletter__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-.newsletter .eyebrow {
-  color: var(--gold-light);
-}
-.newsletter .section-title {
-  color: var(--ivory);
-}
-.newsletter .section-subtitle {
-  color: rgba(251, 245, 236, 0.6);
-}
-.newsletter__field {
-  display: flex;
-  gap: 0.7rem;
-}
-.newsletter__field input {
-  flex-grow: 1;
-  border: 1.5px solid rgba(251, 245, 236, 0.2);
-  background: rgba(251, 245, 236, 0.06);
-  border-radius: var(--radius-pill);
-  padding: 1rem 1.4rem;
-  color: #fff;
-  font-size: 0.92rem;
-}
-.newsletter__field input::placeholder {
-  color: rgba(251, 245, 236, 0.4);
-}
-.newsletter__field input:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-.newsletter__field button {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--gold);
-  color: var(--ink);
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 0 1.6rem;
-  font-weight: 700;
-  font-size: 0.85rem;
-  transition: background 0.3s var(--ease);
-}
-.newsletter__field button:hover {
-  background: var(--gold-light);
-}
-.newsletter__privacy {
-  font-size: 0.76rem;
-  color: rgba(251, 245, 236, 0.4);
-  margin-top: 0.7rem;
-}
-.newsletter .form-status {
-  color: var(--gold-light);
-}
-@media (max-width: 900px) {
-  .newsletter__inner {
-    grid-template-columns: 1fr;
-  }
-  .newsletter__field {
-    flex-direction: column;
-  }
-}
-
-/* ==========================================================================
-   Admin
+  Admin
    ========================================================================== */
 .admin-page {
   min-height: 100vh;
@@ -3709,7 +2932,7 @@ line-height:1.75;
 }
 
 /* ==========================================================================
-   Footer
+  Footer
    ========================================================================== */
 .site-footer {
   background: var(--ink);
@@ -3821,7 +3044,7 @@ line-height:1.75;
 }
 
 /* ==========================================================================
-   Instagram Order Modal
+  Instagram Order Modal
    ========================================================================== */
 .order-modal {
   position: fixed;
@@ -3998,7 +3221,7 @@ line-height:1.75;
 }
 
 /* ==========================================================================
-   Accessibility & motion
+  Accessibility & motion
    ========================================================================== */
 a:focus-visible,
 button:focus-visible,
